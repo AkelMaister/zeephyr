@@ -1,0 +1,21 @@
+{
+  "name": "zeephyr",
+  "version": "0.0.1",
+  "description": "Status monitoring system",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "zeephyr",
+    "monitoring",
+    "webcheck",
+    "teamcity"
+  ],
+  "author": "Bogdan Yaskov (AkelMaister)",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "net-ping": "^1.2.3"
+  }
+}
