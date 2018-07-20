@@ -3,7 +3,8 @@
 const checker = require('./checker.js'),
       express = require('express'),
       fs = require('fs'),
-      web = express()
+      web = express(),
+      configfile = process.argv["2"] ? process.argv["2"] : 'config.json'
 
 let confprepare = (rawconfig, callback) => {
 		let preparedconfig = {}
@@ -41,7 +42,7 @@ let confprepare = (rawconfig, callback) => {
 		return callback(preparedconfig)
 	},
     result = {},
-	config = confprepare(JSON.parse(fs.readFileSync('config.json')), (r) => {
+	config = confprepare(JSON.parse(fs.readFileSync(configfile)), (r) => {
 		// Usage ejs module for view template engine
 		web.set('view engine', 'ejs')
 		// Set directory 'public' for public usage
@@ -91,5 +92,5 @@ setInterval(getinfo, config.checkinterval)
 
 // Reread config file every 60s
 setInterval(() => {
-  config = confprepare(JSON.parse(fs.readFileSync('config.json')), (r) => {return r})
+  config = confprepare(JSON.parse(fs.readFileSync(configfile)), (r) => {return r})
 }, config.checkinterval)
