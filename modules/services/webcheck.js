@@ -17,7 +17,7 @@ let start = (service, callback) => {
 		if (issuccess && typeof service.findText != 'undefined' && service.findText != '') {
 			if (!body.includes(service.findText)) {
 				issuccess = false
-				markedAs = 'warining'
+				markedAs = 'warning'
 				reason = 'String pattern does not find on page'
 			}
 		}
