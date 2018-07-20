@@ -1,0 +1,71 @@
+{
+  "name": "Agrello",
+  "logo": "https://www.agrello.org/resources/593cdf92bedace68bd40cdbc/593ce428c427e47a006057a6_Logo.png",
+  "interval": "30000",
+  "port": "8543",
+  "showHeader": false,
+  "services": [
+     {
+       "name": "Success web probe",
+       "type": "webcheck",
+       "url": "https://google.com",
+       "code": "200"
+     },
+     {
+       "name": "Warning web probe",
+       "type": "webcheck",
+       "url": "https://google.com",
+       "code": "200",
+       "findText": "Some test to find"
+     },
+     {
+       "name": "Error web probe",
+       "type": "webcheck",
+       "url": "https://google.com",
+       "code": "401"
+     },
+     {
+       "name": "Success ping probe",
+       "type": "ping",
+       "url": "8.8.8.8"
+     },
+     {
+       "name": "Error ping probe",
+       "type": "ping",
+       "url": "999.999.999.999"
+     }
+  ],
+  "buildProviders": [
+    {
+      "name": "Teamcity",
+      "type": "teamcity",
+      "url": "https://teamcity.vaadin.com",
+      "httpAuth": true,
+      "asGuest": true,
+      "failsOnly": true
+    }
+  ],
+  "scripts": [
+    {
+      "name": "Success script",
+      "type": "shell",
+      "cmd": "scripts/demo.sh",
+      "expectedCode": "0",
+      "findText": "Ok"
+    },
+    {
+      "name": "Warning script",
+      "type": "shell",
+      "cmd": "scripts/demo.sh",
+      "expectedCode": "0",
+      "findText": "Some Text"
+    },
+    {
+      "name": "Error script",
+      "type": "shell",
+      "cmd": "scripts/demo.sh",
+      "expectedCode": "1",
+      "findText": "Ok"
+    }
+  ]
+}

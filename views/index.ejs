@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= name %></title>
+    <!-- Bootstrap core CSS -->
+    <link href="/themes/<%= theme %>/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/themes/<%= theme %>/css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Page Content -->
+    <div class="container" style="max-width: 1550px;">
+      <div class="row">
+        <h1 class="my-4 text-center text-lg-left col-md-4"><%= name %></h1>
+        <h1 class="my-4 text-center text-lg-center col-md-4" id="loading"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></h1>
+        <h1 class="my-4 text-center text-lg-right col-md-4"><img src="<%= logo %>" width="130" class="image"></h1>
+      </div>
+	  <div> 
+		  <div class="row text-center text-lg-left" id="Services"></div>
+		  <div class="row text-center text-lg-left" id="Builds"></div>
+		  <div class="row text-center text-lg-left" id="Scripts"></div>
+	   <div>
+    </div>
+    <!-- /.container -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+    'use strict';
+    let loader='<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>',
+        srvcloader = false,
+        buildsloader = false,
+		themeClass = <%- themeClass %>
+
+	function update() {
+        $("#loading").html(loader)	
+        $.ajax({
+          url:     '/status',
+          type:    'GET',
+          dataType: 'json',
+          success: (r) => {
+			for (let type in r) {
+				let html = ''
+				if (Object.keys(r[type]).length != '0')
+					html = '<h1 class="text-center text-lg-center col-md-12">' + type + ':</h1>'
+/**
+                if (Object.keys(r[type]).length == '0') {
+                    html += '<h3 class="text-center text-lg-center col-md-12">No information to display</h3>'
+                }
+*/
+				for (let item in r[type]) {
+					item = r[type][item]
+					let theme = themeClass[item.markedAs]
+					html += '  <div class="col-lg-2 col-md-4 col-xs-6">'
+					html += '    <div class="card text-white ' + theme + ' mb-3" style="max-width: 20rem;">'
+					if (<%= showHeader %>)
+							html += '      <div class="card-header">' + item.data + '</div>'
+					html += '      <div class="card-body">'
+					html += '        <h4 class="card-title">' + item.name + '</h4>'
+					if (typeof item.responseTime != 'undefined')
+						html += '        <p class="small">response time: ' + item.responseTime + ' ms</p>'
+					if (typeof item.msg != 'undefined')
+						html += '        <p>' + item.msg + '</p>'
+					html += '      </div>'
+					html += '    </div>'
+					html += '  </div>'
+				}
+				$('#' + type).html(html)
+				let hh = Math.max.apply(Math, $('#' + type + ' .card-header').map(function(){ return $(this).height(); }).get()),
+					hb = Math.max.apply(Math, $('#' + type + ' .card-body').map(function(){ return $(this).height(); }).get())
+				$('#' + type + ' .card-header').height(hh)
+				$('#' + type + ' .card-body').height(hb)
+				$('#loading').html('')
+			}
+          },
+          error: (r) => {
+            console.error(r)
+          }
+        })
+	}
+    $(document).ready(() => {
+	  update()
+	  setInterval(update, <%= interval %>)
+    })
+    </script>
+  </body>
+</html>
+

@@ -1,2 +1,3 @@
-# zeephyr
-System for monitoring external services and CI tools (Teamcity)
+### Zeephyr
+
+sudo setcap cap_net_raw+ep $(which node)
