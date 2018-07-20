@@ -14,6 +14,6 @@ RUN apk add --update git \
 
 RUN apk del git make g++
 
-RUN chmod -R +x node_modules/
+RUN chmod -R +x .
 
 CMD ["npm", "start"]
